@@ -1,4 +1,11 @@
 from tkinter import *
+from tkinter import messagebox
+
+#define exit button
+def exitwindow():
+    result = messagebox.askyesno("Confirmation", "Do you want to exit?")
+    if result:
+        root.destroy()
 
 root = Tk()
 root.title("Email Verification System")
@@ -61,7 +68,8 @@ exitlabel = Button(root,
                  fg='White',
                  bg='#167000',
                  border=0,
-                 cursor='hand2')
+                 cursor='hand2',
+                 command=exitwindow)
 exitlabel.pack(fill=X,padx=160)
 
 
