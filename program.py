@@ -2,7 +2,8 @@ from tkinter import *
 from tkinter import messagebox
 import random
 import smtplib
-
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 #define exit button
 def exitwindow():
@@ -13,16 +14,21 @@ def exitwindow():
 #send otp code
 def sendotp():
     sender_email = "edumaster010@gmail.com"
-    mailpassword = "edu@master@123"
+    password = "uifbksavayihbnyy"
     to_email = str(email.get())
+    
+    message = MIMEMultipart()
+    message["From"] = sender_email
+    message["To"] = to_email
+    message["Subject"] = "Your OTP for Account Verification"
     body = "Hi\nYour One-Time Passcode (OTP) is: {}.\nPlease use it to complete account verification.\nBest,\nRed Line softwares.".format(otpnumber)
     
+    message.attach(MIMEText(body,"plain"))
     
-    server = smtplib.SMTP('smtp.gmail.com',587)
-    server.starttls()
-    
-    server.login(sender_email,mailpassword)
-    server.sendmail(sender_email,to_email,body)
+    with smtplib.SMTP("smtp.gmail.com",587) as server:
+        server.starttls()
+        server.login(sender_email,password)
+        server.sendmail(sender_email,to_email,message.as_string())
         
     messagebox.showinfo("Information","OTP Send Successfully!\nCheck Your Inbox")
     
