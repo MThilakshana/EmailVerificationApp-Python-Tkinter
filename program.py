@@ -1,11 +1,41 @@
 from tkinter import *
 from tkinter import messagebox
+import random
+import smtplib
+
 
 #define exit button
 def exitwindow():
     result = messagebox.askyesno("Confirmation", "Do you want to exit?")
     if result:
         root.destroy()
+        
+#send otp code
+def sendotp():
+    sender_email = "edumaster010@gmail.com"
+    mailpassword = "edu@master@123"
+    to_email = str(email.get())
+    body = "Hi\nYour One-Time Passcode (OTP) is: {}.\nPlease use it to complete account verification.\nBest,\nRed Line softwares.".format(otpnumber)
+    
+    
+    server = smtplib.SMTP('smtp.gmail.com',587)
+    server.starttls()
+    
+    server.login(sender_email,mailpassword)
+    server.sendmail(sender_email,to_email,body)
+        
+    messagebox.showinfo("Information","OTP Send Successfully!\nCheck Your Inbox")
+    
+#check otp
+def checkOtp():
+    if str(otpnumber) == str(otp.get()):
+        messagebox.showinfo("Information","Email Verified Successfully!")
+    else:
+        messagebox.showinfo("Warning","Invalid Email")
+    
+    
+#generate ram=ndom otp
+otpnumber = random.randint(100000,999999)
 
 root = Tk()
 root.title("Email Verification System")
@@ -38,7 +68,8 @@ email.pack(fill=X,padx=35)
 sendbtn = Button(root,
                  text="Send OTP",
                  font=("Times 14 bold"),
-                 cursor='hand2')
+                 cursor='hand2',
+                 command=sendotp)
 sendbtn.pack(fill=X,padx=130,pady=10)
 
 otplabel = Label(root,
@@ -59,7 +90,8 @@ otp.pack(fill=X,padx=35)
 verifybtn = Button(root,
                  text="Verify Email",
                  font=("Times 14 bold"),
-                 cursor='hand2')
+                 cursor='hand2',
+                 command=checkOtp)
 verifybtn.pack(fill=X,padx=130,pady=10)
 
 exitlabel = Button(root,
