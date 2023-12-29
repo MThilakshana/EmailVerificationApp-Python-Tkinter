@@ -13,23 +13,22 @@ def exitwindow():
         
 #send otp code
 def sendotp():
-    sender_email = "edumaster010@gmail.com"
-    password = "uifbksavayihbnyy"
-    to_email = str(email.get())
+    email = "edumaster010@gmail.com"
+    recevermail = emailent.get()
+
+    subject = "Your OTP for Account Verification"
+    message = "Your OTP IS 125896"
+    #message = "Hi,\n\nYour One-Time Passcode (OTP) is: {otpnumber}.\nPlease use it to complete account verification.\n\nBest,\nRed Line Softwares"
+
+    text = f"Subject: {subject}\n\n{message}"
+
+    server = smtplib.SMTP("smtp.gmail.com",587)
+    server.starttls()
+
+    server.login(email,"trvzssnpkpzthxnb")
+
+    server.sendmail(email,recevermail,text)
     
-    message = MIMEMultipart()
-    message["From"] = sender_email
-    message["To"] = to_email
-    message["Subject"] = "Your OTP for Account Verification"
-    body = "Hi\nYour One-Time Passcode (OTP) is: {}.\nPlease use it to complete account verification.\nBest,\nRed Line softwares.".format(otpnumber)
-    
-    message.attach(MIMEText(body,"plain"))
-    
-    with smtplib.SMTP("smtp.gmail.com",587) as server:
-        server.starttls()
-        server.login(sender_email,password)
-        server.sendmail(sender_email,to_email,message.as_string())
-        
     messagebox.showinfo("Information","OTP Send Successfully!\nCheck Your Inbox")
     
 #check otp
@@ -63,13 +62,13 @@ emaillabel = Label(root,
               bg='#167000')
 emaillabel.pack(fill=X,pady=(30,0))
 
-email = Entry(root,
+emailent = Entry(root,
               font=("Times 14"),
               bg='#9AEB87',
               fg='Black',
               width=20,
               justify='center')
-email.pack(fill=X,padx=35)
+emailent.pack(fill=X,padx=35)
 
 sendbtn = Button(root,
                  text="Send OTP",
