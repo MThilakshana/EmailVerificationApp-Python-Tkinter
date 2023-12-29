@@ -2,8 +2,6 @@ from tkinter import *
 from tkinter import messagebox
 import random
 import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
 
 #define exit button
 def exitwindow():
@@ -14,11 +12,10 @@ def exitwindow():
 #send otp code
 def sendotp():
     email = "edumaster010@gmail.com"
-    recevermail = emailent.get()
+    recevermail = str(emailEntry.get())
 
-    subject = "Your OTP for Account Verification"
-    message = "Your OTP IS 125896"
-    #message = "Hi,\n\nYour One-Time Passcode (OTP) is: {otpnumber}.\nPlease use it to complete account verification.\n\nBest,\nRed Line Softwares"
+    subject = "Email Verification"
+    message = "Hi,\n\nYour One-Time Passcode (OTP) is: {}.\nPlease use it to complete account verification.\n\nBest,\nRed Line Softwares".format(otpnumber)
 
     text = f"Subject: {subject}\n\n{message}"
 
@@ -35,6 +32,8 @@ def sendotp():
 def checkOtp():
     if str(otpnumber) == str(otp.get()):
         messagebox.showinfo("Information","Email Verified Successfully!")
+        emailEntry.delete(0,END)
+        otp.delete(0,END)
     else:
         messagebox.showinfo("Warning","Invalid Email")
     
@@ -62,13 +61,13 @@ emaillabel = Label(root,
               bg='#167000')
 emaillabel.pack(fill=X,pady=(30,0))
 
-emailent = Entry(root,
+emailEntry = Entry(root,
               font=("Times 14"),
               bg='#9AEB87',
               fg='Black',
               width=20,
               justify='center')
-emailent.pack(fill=X,padx=35)
+emailEntry.pack(fill=X,padx=35)
 
 sendbtn = Button(root,
                  text="Send OTP",
